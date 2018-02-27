@@ -19,6 +19,6 @@ public class MouseCursorManager : MonoBehaviour
         Vector3 mousePosition = Input.mousePosition;
 
         transform.position = mainCam.ScreenToWorldPoint(mousePosition);
-        transform.position = new Vector3(transform.position.x, transform.position.y, -5);
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
 	}
 }

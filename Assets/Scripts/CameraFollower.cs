@@ -13,28 +13,10 @@ public class CameraFollower : MonoBehaviour
     float currentVelocityX;
     float currentVelocityY;
 
-    // Update is called once per frame
-    /*
-    void Update () 
-    {
-        transform.position = cameraMovement(transform.position.x, objectToFollow.transform.position.x,
-                                            transform.position.y, objectToFollow.transform.position.y);
-        transform.position = new Vector3(transform.position.x, transform.position.y, -10);
-	}
+    public GameObject crosshair;
+    public GameObject player;
 
-    Vector3 cameraMovement(float x, float targetX, float y, float targetY)
-    {
-        return new Vector3(smoothCameraFollow(x, targetX, smoothTime),
-                           smoothCameraFollow(y, targetY, smoothTime));
-    }
-
-    float smoothCameraFollow(float currentPosition, float targetPosition, float duration)
-    {
-        return Mathf.SmoothDamp(currentPosition, targetPosition, ref currentVelocity, duration);
-    }
-    */
-
-    private void Update()
+    private void FixedUpdate()
     {
         transform.position = new Vector3(Mathf.SmoothDamp(transform.position.x,
                                                           objectToFollow.transform.position.x,
@@ -45,5 +27,8 @@ public class CameraFollower : MonoBehaviour
                                                           ref currentVelocityY,
                                                           smoothTime),
                                          -10);
+        Vector3 difference = crosshair.transform.position - player.transform.position;
+        difference.z = -10;
+        //transform.position = transform.position + (difference / 5);
     }
 }

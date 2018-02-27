@@ -14,7 +14,12 @@ public class BulletManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-        transform.position += transform.right;
+        transform.position += transform.right * 8f;
 	}
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Destroy(gameObject);
+    }
 
 }

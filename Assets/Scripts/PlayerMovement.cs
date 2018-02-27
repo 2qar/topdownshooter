@@ -2,13 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Don't know where else to write this, so here's the game plan:
+ * -Bunch o levels
+ * -Each level is wave based, bunch of dudes n stuff
+ * -Between waves there's a shop
+ * -Basically this is top down killing floor
+ * -Enemies explode into bits that go towards a meter for the player
+ * -Once it fills up, the player moves super fast and shoots super fast
+ * -Encourage aggressive and risky gameplay
+ */
+
+
 public class PlayerMovement : MonoBehaviour 
 {
+    public float speed;
+
+    private Rigidbody2D rb;
 
 	// Use this for initialization
 	void Start () 
     {
-		
+        // Get the player's rigidbody
+        rb = gameObject.GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
@@ -19,14 +34,17 @@ public class PlayerMovement : MonoBehaviour
 
     void getMovementInput()
     {
-        if (Input.GetKey(KeyCode.W))
-            transform.position += new Vector3(0, .1f);
-        if (Input.GetKey(KeyCode.A))
-            transform.position -= new Vector3(.1f, 0);
-        if (Input.GetKey(KeyCode.S))
-            transform.position -= new Vector3(0, .1f);
-        if (Input.GetKey(KeyCode.D))
-            transform.position += new Vector3(.1f, 0);
+        // Get input on the x axis from WASD or arrow keys
+        float x = Input.GetAxis("Horizontal") * speed;
+        // Get input on the y axis from WASD or arrow keys
+        float y = Input.GetAxis("Vertical") * speed;
+        // Apply this movement
+        rb.velocity = new Vector2(x, y);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
     }
 
 }
