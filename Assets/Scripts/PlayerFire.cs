@@ -12,13 +12,11 @@ public class PlayerFire : MonoBehaviour
     // Where to spawn the bullet
     public GameObject bulletCreationPoint;
 
+    // temporary gun object that rotates w/ mouse 
     public GameObject testRotater;
 
     // Stores when the player can next fire their weapon, prevents a million bullets firing at once
-    private float nextFire;
-
-    // Script on the main camera with a method that shakes the screen
-    public ScreenShaker shaker;
+    float nextFire;
 
     // Update is called once per frame
     void Update () 
@@ -41,11 +39,13 @@ public class PlayerFire : MonoBehaviour
 
     void fireWeapon(float angle)
     {
+        StartCoroutine(Effects.MuzzleFlash(bulletCreationPoint));
+
         // Shoot a bullet at the proper angle
         Instantiate(bullet, bulletCreationPoint.transform.position, Quaternion.Euler(0, 0, angle + Random.Range(-15, 16)));
 
         // Shake that screen, boye
-        shaker.ShakeCamera(2f);
+        ScreenShaker.ShakeCamera(2f);
 
         // Set a delay between the next shot
         nextFire = Time.time + .05f;

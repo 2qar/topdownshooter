@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class ScreenShaker : MonoBehaviour
 {
-    float smoothTime = .3f;
-    float currentVelocity = 0f;
+    static Camera mainCam;
 
-    float startTime;
-    float duration = .5f;
+    static float currentVelocity;
+    static float startTime;
+    static float duration = .5f;
 
-    // The point for the camera to slowly return to
-    Vector3 origin;
+    // point for camera to return to, should anchor to targetObject
+    static Vector3 origin;
 
     // Object to use as the origin object
-    public GameObject targetObject;
+    public static GameObject targetObject;
+
+    private void Start()
+    {
+        mainCam = Camera.main;
+    }
 
     // Update is called once per frame
     void Update()
@@ -29,7 +34,7 @@ public class ScreenShaker : MonoBehaviour
     /// <param name="strength">
     /// The radius of the unit circle to generate a point inside, effectively strength.
     /// </param>
-    public void ShakeCamera(float strength)
+    public static void ShakeCamera(float strength)
     {
         // Gets the start time so the camera can start resetting
         startTime = Time.time;
@@ -38,7 +43,7 @@ public class ScreenShaker : MonoBehaviour
         // Update the new position's z to -10 so the camera doesn't move forward and make everything invisible
         newPos.z = -10;
         // Set the camera's position to this smoothed position
-        transform.position += newPos;
+        mainCam.transform.position += newPos;
     }
 
     /// <summary>
@@ -64,7 +69,8 @@ public class ScreenShaker : MonoBehaviour
     /// </param>
     private void UpdateCameraOrigin(GameObject originObject)
     {
-        origin = originObject.transform.position;
+        if(originObject != null)
+            origin = originObject.transform.position;
     }
 
 }
