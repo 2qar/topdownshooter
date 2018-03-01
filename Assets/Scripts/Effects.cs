@@ -125,7 +125,8 @@ public class Effects : MonoBehaviour
         yield return new WaitForSeconds(.01f);
 
         Destroy(explosion.ExplosionObject);
-        Destroy(bullet);
+        bullet.transform.position = new Vector3(100000, 0, 0);
+        Destroy(bullet, .1f);
 
         yield break;
     }
