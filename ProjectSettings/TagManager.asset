@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerBullet
   - Enemy
+  - PlayerWeapon
   layers:
   - Default
   - TransparentFX
@@ -45,4 +46,7 @@ TagManager:
     locked: 0
   - name: Mouse
     uniqueID: 486612041
+    locked: 0
+  - name: Edge Borders
+    uniqueID: 2841226535
     locked: 0

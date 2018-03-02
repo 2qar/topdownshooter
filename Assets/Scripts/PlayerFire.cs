@@ -14,9 +14,15 @@ public class PlayerFire : MonoBehaviour
 
     // temporary gun object that rotates w/ mouse 
     public GameObject testRotater;
+    public GameObject gun;
 
     // Stores when the player can next fire their weapon, prevents a million bullets firing at once
     float nextFire;
+
+    void Start()
+    {
+        
+    }
 
     // Update is called once per frame
     void Update () 

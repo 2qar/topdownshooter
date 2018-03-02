@@ -15179,7 +15179,7 @@ Tilemap:
   - m_RefCount: 1314
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.38235295, b: 0.38235295, a: 1}
   m_Origin: {x: -22, y: -19, z: 0}
   m_Size: {x: 43, y: 36, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -15619,7 +15619,7 @@ GameObject:
   - component: {fileID: 1505840257}
   m_Layer: 8
   m_Name: Ogdog (1)
-  m_TagString: Untagged
+  m_TagString: PlayerWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15742,8 +15742,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1453740761
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c289db88f472e4b7cbc52ca13eb7a3e4, type: 3}
   m_Color: {r: 0.24264705, g: 0.24264705, b: 0.24264705, a: 1}
@@ -15769,7 +15769,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1596458553
 Transform:
   m_ObjectHideFlags: 0
@@ -15845,8 +15845,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1453740761
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c289db88f472e4b7cbc52ca13eb7a3e4, type: 3}
   m_Color: {r: 0.24264705, g: 0.24264705, b: 0.24264705, a: 1}
@@ -16079,6 +16079,7 @@ MonoBehaviour:
   bullet: {fileID: 1391276366945490, guid: cf5b1b383fa184394b7ee08548851b1f, type: 2}
   bulletCreationPoint: {fileID: 1318278445}
   testRotater: {fileID: 1244411106}
+  gun: {fileID: 0}
 --- !u!61 &1797399942
 BoxCollider2D:
   m_ObjectHideFlags: 0

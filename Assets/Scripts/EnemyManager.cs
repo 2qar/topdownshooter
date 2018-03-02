@@ -24,7 +24,7 @@ public class EnemyManager : MonoBehaviour
 
             if(value <= 0)
             {
-                ScreenShaker.ShakeCamera(4f);
+                ScreenShaker.ShakeCamera(10f);
                 Destroy(gameObject);
             }
 

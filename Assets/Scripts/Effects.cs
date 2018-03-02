@@ -110,7 +110,6 @@ public class Effects : MonoBehaviour
         Camera.main.transform.position += newPos;
     }
 
-    // FIXME: Explosions will get stuck, especially when shooting enemies; I think the bullets are getting destroyed too soon and the method can't finish
     /// <summary>
     /// Creates a small explosion at the given bullet's position and destroys the bullet.
     /// </summary>
@@ -131,6 +130,7 @@ public class Effects : MonoBehaviour
         yield break;
     }
 
+    // FIXME: Same issue w/ bullet hit effect, move the player off screen and wait to kill them
     /// <summary>
     /// Creates a muzzle flash at the given object when called.
     /// </summary>

@@ -12,6 +12,17 @@ using UnityEngine;
  * -Encourage aggressive and risky gameplay
  */
 
+/**
+ * another idea
+ * - walls kill you when you touch them
+ * - rooms get smaller 
+ * - rush between rooms
+ * - amount of enemies gets higher and higher
+ * - player weapon, ammo, health etc persists
+ * 
+ * - make a way for the player to increase the size of the room
+ * - make a way for the enemies to decrease the size of the room
+ */
 
 public class PlayerMovement : MonoBehaviour 
 {
