@@ -44,9 +44,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Mouse
-    uniqueID: 486612041
+  - name: Ground
+    uniqueID: 2272859061
     locked: 0
   - name: Edge Borders
     uniqueID: 2841226535
+    locked: 0
+  - name: Player and NPC
+    uniqueID: 1517329871
+    locked: 0
+  - name: Other shit
+    uniqueID: 1917795389
+    locked: 0
+  - name: Mouse
+    uniqueID: 486612041
     locked: 0
