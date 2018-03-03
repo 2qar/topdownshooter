@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ScreenShaker : MonoBehaviour
 {
-    static Camera mainCam;
+    static Camera mainCam = Camera.main;
 
     static float currentVelocity;
     static float startTime;
@@ -15,11 +15,6 @@ public class ScreenShaker : MonoBehaviour
 
     // Object to use as the origin object
     public static GameObject targetObject;
-
-    private void Start()
-    {
-        mainCam = Camera.main;
-    }
 
     // Update is called once per frame
     void Update()
