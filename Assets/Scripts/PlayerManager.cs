@@ -28,8 +28,6 @@ public class PlayerManager : MonoBehaviour
     {
         EnemySpawner.SpawnEnemiesInRoom(15);
         sr = gameObject.GetComponent<SpriteRenderer>();
-
-        Weapon gun = new Weapon((int)Weapon.WeaponName.pistol);
 	}
 	
 	// Update is called once per frame
