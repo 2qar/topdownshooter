@@ -8,30 +8,38 @@ using UnityEngine;
 public class Weapon 
 {
     [HideInInspector]
-    public Sprite testSprite = Resources.Load<Sprite>("Sprites/Square");
-    [HideInInspector]
     public GameObject gun;
+    [HideInInspector]
+    public SpriteRenderer sr;
     [HideInInspector]
     public GameObject gunOutline;
     [HideInInspector]
     public GameObject bulletSpawnPoint;
 
-    public enum WeaponName { pistol, minigun };
+    public enum WeaponName { pistol, minigun, shotgun };
     private string weaponName;
+
     private Sprite weaponSprite;
+    private Sprite[] gunSprites = Resources.LoadAll<Sprite>("Sprites/guns");
+
     private float fireRate;
     public float FireRate { get { return fireRate; } }
+
     private float angleOffset;
     public float AngleOffset { get { return angleOffset; } }
+
     private int weaponDamage;
     public int WeaponDamage { get { return weaponDamage; } }
+
     private bool singleFire;
     public bool SingleFire { get { return singleFire; } }
+
     public enum AmmoType { bullets, shells, energy, explosive, voidAmmo };
     private int ammoType;
     public int Ammo { get { return ammoType; } }
 
-    private Color spriteColor;
+    private float screenShakeAmount;
+    public float ScreenShakeAmount { get { return screenShakeAmount; } }
 
     /// <summary>
     /// Creates a weapon object and creates a GameObject with the correct physical properties.
@@ -74,27 +82,33 @@ public class Weapon
         {
             case (int)WeaponName.pistol:
                 weaponName = "Pistol";
-                //weaponSprite = 
+                weaponSprite = gunSprites[1];
                 fireRate = .05f;
                 angleOffset = 10;
                 weaponDamage = 1;
                 singleFire = true;
                 ammoType = (int)AmmoType.bullets;
-
-                spriteColor = Color.red;
-
+                screenShakeAmount = 2f;
                 break;
             case (int)WeaponName.minigun:
                 weaponName = "Minigun";
-                //weaponSprite =
+                weaponSprite = gunSprites[2];
                 fireRate = .05f;
                 angleOffset = 15;
                 weaponDamage = 1;
                 singleFire = false;
                 ammoType = (int)AmmoType.bullets;
-
-                spriteColor = Color.blue;
-
+                screenShakeAmount = 5f;
+                break;
+            case (int)WeaponName.shotgun:
+                weaponName = "Shotgun";
+                weaponSprite = gunSprites[0];
+                fireRate = .5f;
+                angleOffset = 35;
+                weaponDamage = 1;
+                singleFire = true;
+                ammoType = (int)AmmoType.shells;
+                screenShakeAmount = 25f;
                 break;
         }
     }
@@ -107,9 +121,8 @@ public class Weapon
         // create a gun gameobject with the right properties
         gun = new GameObject(weaponName);
         gun.transform.localScale = new Vector3(16f, 16f, 1f);
-        SpriteRenderer sr = gun.AddComponent<SpriteRenderer>();
-        sr.sprite = testSprite;
-        sr.color = spriteColor;
+        sr = gun.AddComponent<SpriteRenderer>();
+        sr.sprite = weaponSprite;
         gun.AddComponent<BoxCollider2D>().isTrigger = true;
 
         // set up the outline of the gun

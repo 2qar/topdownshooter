@@ -61,7 +61,9 @@ public class EnemyManager : MonoBehaviour
             if(player != null)
                 playerMan.Health--;
         }
-            
+
+        if (collision.gameObject.tag == "PlayerBullet")
+            Health -= PlayerFire.instance.gun.WeaponDamage;
     }
 
 }

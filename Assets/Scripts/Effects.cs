@@ -49,51 +49,6 @@ public class Effects : MonoBehaviour
         yield break;
     }
 
-    // NOTE: Don't use this method, Unity doesn't like my while loops
-    /// <summary>
-    /// Rotates a given GameObject by rotationAmount back and forth.
-    /// </summary>
-    /// <param name="obj">
-    /// Object to rotate.
-    /// </param>
-    /// <param name="rotationAmount">
-    /// Amount to rotate the text by.
-    /// </param>
-    /// <param name="time">
-    /// How long to spend rotating in one direction.
-    /// </param>
-    /*
-    public static void RotateObject(GameObject obj, float rotationAmount, float time)
-    {
-        bool rotateLeft = true;
-        float startTime = Time.time;
-        float smoothRotation;
-
-        while(true)
-        {
-            float t = (Time.time - startTime) / time;
-            if(rotateLeft)
-            {
-                smoothRotation = Mathf.SmoothStep(obj.transform.rotation.z, -rotationAmount, t);
-                if (smoothRotation <= -rotationAmount)
-                {
-                    rotateLeft = false;
-                    startTime = Time.time;
-                }
-            }
-            else
-            {
-                smoothRotation = Mathf.SmoothStep(obj.transform.rotation.z, rotationAmount, t);
-                if(smoothRotation >= rotationAmount)
-                {
-                    rotateLeft = true;
-                    startTime = Time.time;
-                }
-            }
-        }
-    }
-    */
-
     /// <summary>
     /// Shakes the main camera inside of a unit circle with a radius of strength.
     /// </summary>
