@@ -24,6 +24,12 @@ using UnityEngine;
  * - make a way for the enemies to decrease the size of the room
  */
 
+/**
+ * ANOTHER idea
+ * - doom-like levels w/ secrets
+ * - similar structure to the game u were gonna make at thomas' house
+ */
+
 public class PlayerMovement : MonoBehaviour 
 {
     public float speed;

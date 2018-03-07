@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// FIXME: Player can grab enemy weapons: make a bool that makes a weapon ungrabbable and pass it to the trigger method
+    // Write code that checks if the gun's parent is null; if null, let the player grab it
+// FIXME: Fix gun outline rotation
+// TODO: Make guns appear in front of the player when aiming below and behind the player when aiming above
+
 /// <summary>
 /// Generates a weapon GameObject and a list of properties associated with the weapon.
 /// </summary>
@@ -16,7 +21,7 @@ public class Weapon
     [HideInInspector]
     public GameObject bulletSpawnPoint;
 
-    public enum WeaponName { pistol, minigun, shotgun };
+    //public enum WeaponName { pistol, minigun, shotgun };
     private string weaponName;
 
     private Sprite weaponSprite;
@@ -45,9 +50,9 @@ public class Weapon
     /// Creates a weapon object and creates a GameObject with the correct physical properties.
     /// </summary>
     /// <param name="weapon">
-    /// Weapon number.
+    /// Weapon name.
     /// </param>
-    public Weapon(int weapon)
+    public Weapon(string weapon)
     {
         SetWeapon(weapon);
 
@@ -58,12 +63,21 @@ public class Weapon
     /// Creates the correct weapon as a GameObject and parents it to a given GameObject.
     /// </summary>
     /// <param name="weapon">
-    /// Weapon number.
+    /// Weapon name.
     /// </param>
     /// <param name="parent">
     /// Parent object.
     /// </param>
-    public Weapon(int weapon, GameObject parent)
+    public Weapon(string weapon, GameObject parent)
+    {
+        SetWeapon(weapon);
+
+        InitializeWeapon();
+
+        SetParent(parent);
+    }
+
+    public Weapon(string weapon, Transform parent)
     {
         SetWeapon(weapon);
 
@@ -76,12 +90,12 @@ public class Weapon
     /// Set the weapon to the correct one based on the int given from the WeaponName enum.
     /// </summary>
     /// <param name="weapon">Weapon number.</param>
-    private void SetWeapon(int weapon)
+    private void SetWeapon(string weapon)
     {
         switch (weapon)
         {
-            case (int)WeaponName.pistol:
-                weaponName = "Pistol";
+            case "Pistol":
+                weaponName = weapon;
                 weaponSprite = gunSprites[1];
                 fireRate = .05f;
                 angleOffset = 10;
@@ -90,8 +104,8 @@ public class Weapon
                 ammoType = (int)AmmoType.bullets;
                 screenShakeAmount = 2f;
                 break;
-            case (int)WeaponName.minigun:
-                weaponName = "Minigun";
+            case "Minigun":
+                weaponName = weapon;
                 weaponSprite = gunSprites[2];
                 fireRate = .05f;
                 angleOffset = 15;
@@ -100,8 +114,8 @@ public class Weapon
                 ammoType = (int)AmmoType.bullets;
                 screenShakeAmount = 5f;
                 break;
-            case (int)WeaponName.shotgun:
-                weaponName = "Shotgun";
+            case "Shotgun":
+                weaponName = weapon;
                 weaponSprite = gunSprites[0];
                 fireRate = .5f;
                 angleOffset = 35;
@@ -109,6 +123,9 @@ public class Weapon
                 singleFire = true;
                 ammoType = (int)AmmoType.shells;
                 screenShakeAmount = 25f;
+                break;
+            default:
+                Debug.Log("weapon name not recognized: " + weapon);
                 break;
         }
     }
@@ -123,7 +140,10 @@ public class Weapon
         gun.transform.localScale = new Vector3(16f, 16f, 1f);
         sr = gun.AddComponent<SpriteRenderer>();
         sr.sprite = weaponSprite;
-        gun.AddComponent<BoxCollider2D>().isTrigger = true;
+        BoxCollider2D collider = gun.AddComponent<BoxCollider2D>();
+        collider.isTrigger = true;
+        gun.transform.tag = "PlayerWeapon";
+        GunObjectTriggers gunTriggerHandlingScript = gun.AddComponent<GunObjectTriggers>();
 
         // set up the outline of the gun
         gunOutline = new GameObject();
@@ -134,15 +154,15 @@ public class Weapon
         SpriteRenderer outline = gunOutline.AddComponent<SpriteRenderer>();
         outline.sprite = sr.sprite;
         outline.color = Color.white;
-
-        // hide the outline; this only needs to be showing when the gun is
-        // on the ground and the player goes to pick it up
-        gunOutline.SetActive(false);
+        // hide the gun outline; only enable it when the player is touching the 
+        outline.enabled = false;
+        // give triggerscript the gun's outline so it can be enabled and disabled when the player collides w/ the gun
+        gunTriggerHandlingScript.outline = outline;
 
         bulletSpawnPoint = new GameObject();
         bulletSpawnPoint.name = "Bullet Spawn Point";
         bulletSpawnPoint.transform.parent = gun.transform;
-        bulletSpawnPoint.transform.position = new Vector3(0, .5f, 0);
+        bulletSpawnPoint.transform.localPosition = new Vector3(.5f, 0, 0);
     }
 
     /// <summary>
@@ -152,8 +172,21 @@ public class Weapon
     private void SetParent(GameObject parentObject)
     {
         gun.transform.parent = parentObject.transform;
-        gun.transform.position = new Vector3(0, -0.5f, 0);
-        gun.transform.rotation = Quaternion.Euler(0, 0, 0);
+        // set to X: 1.5f Y: 0 Z: 0
+        gun.transform.localPosition = new Vector3(.8f, 0, 0);
+        gun.transform.localRotation = Quaternion.Euler(0, 0, 0);
+    }
+
+    /// <summary>
+    /// Assigns the gun as a child of a given Transform.
+    /// </summary>
+    /// <param name="parentTransform">Object to act as the parent.</param>
+    private void SetParent(Transform parentTransform)
+    {
+        gun.transform.parent = parentTransform;
+        // set to X: 1.5f Y: 0 Z: 0
+        gun.transform.localPosition = new Vector3(.8f, 0, 0);
+        gun.transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
     /// <summary>

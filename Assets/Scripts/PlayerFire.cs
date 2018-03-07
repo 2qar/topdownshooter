@@ -24,20 +24,25 @@ public class PlayerFire : MonoBehaviour
 
     void Start()
     {
-        gun = new Weapon((int)Weapon.WeaponName.minigun, gunRotater);
+        // the player's weapon
+        gun = new Weapon("Shotgun", gunRotater);
         instance = this;
+
+        // spawn a gun somewhere in the room or smth
+        Weapon randomGun = new Weapon("Minigun");
+        randomGun.RandomizePosition(new Vector2(50, 50), new Vector2(50, 50));
     }
 
     // Update is called once per frame
     void Update () 
     {
-        float angle = getWeaponAngle();
+        float angle = Effects.GetWeaponAngle(cursor, gameObject);
         gunRotater.transform.rotation = Quaternion.Euler(0, 0, angle);
 
         if (checkWeaponFiringStatus())
             fireWeapon(angle);
 
-        UpdateGunSpritePosition(angle);
+        Effects.UpdateGunSpritePosition(angle, gun.sr);
 	}
 
     /// <summary>
@@ -54,6 +59,8 @@ public class PlayerFire : MonoBehaviour
             return false;
     }
 
+    /*
+    // TODO: Move this method to effects so the enemies can use this for their weapons, make the method pass in a gun to rotate
     /// <summary>
     /// Updates whether the gun is in front of or behind the player and whether the gun needs to be flipped on the Y axis or not.
     /// </summary>
@@ -67,6 +74,7 @@ public class PlayerFire : MonoBehaviour
         else
             gun.sr.flipY = false;
     }
+    */
 
     void fireWeapon(float angle)
     {
@@ -92,6 +100,8 @@ public class PlayerFire : MonoBehaviour
         nextFire = Time.time + gun.FireRate;
     }
 
+    /*
+    // TODO: Maybe add this to effects too
     float getWeaponAngle()
     {
         // Take the distance between the player and the crosshair
@@ -102,5 +112,6 @@ public class PlayerFire : MonoBehaviour
         // Convert the difference to an angle
         return Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
     }
+    */
 
 }

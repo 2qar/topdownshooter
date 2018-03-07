@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: When enemies get guns and are in levels w/ obstacles, make them cast a ray towards the player before shooting to make sure they don't just shoot walls and look dumb
+// TODO: Write basic enemy movement behavior
+
 public class EnemyManager : MonoBehaviour 
 {
+    private Transform gunRotater;
+
     // player components
     private GameObject player;
     private PlayerManager playerMan;
@@ -11,6 +16,8 @@ public class EnemyManager : MonoBehaviour
     // enemy components
     SpriteRenderer sr;
     Rigidbody2D rb;
+
+    Weapon gun;
 
     private int health = 3;
     public int Health
@@ -35,6 +42,9 @@ public class EnemyManager : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
+        gunRotater = gameObject.transform.GetChild(0);
+        gun = new Weapon("Pistol", gunRotater);
+
         // player components
         player = GameObject.FindGameObjectWithTag("Player");
         playerMan = player.GetComponent<PlayerManager>();
@@ -51,6 +61,22 @@ public class EnemyManager : MonoBehaviour
     {
         if (player != null)
             rb.velocity = (player.transform.position - gameObject.transform.position).normalized * 20;
+
+        /*
+        RaycastHit2D ray = Physics2D.Raycast(gun.bulletSpawnPoint.transform.position, 
+                                             PlayerManager.instance.transform.position, 
+                                             Mathf.Infinity, 
+                                             );
+                                             */
+
+        //Debug.Log(ray.transform);
+
+        // TODO: Add dampening to this so the enemies don't perfectly follow the player
+        float angle = Effects.GetWeaponAngle(PlayerManager.instance.gameObject, gameObject);
+        Effects.UpdateGunSpritePosition(angle, gun.sr);
+        gunRotater.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        //fire on a timer based on the enemy's weapon
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -58,7 +84,7 @@ public class EnemyManager : MonoBehaviour
         // if the enemy collides with the player,
         if (collision.gameObject.name == player.name)
         {
-            if(player != null)
+            if(playerMan != null)
                 playerMan.Health--;
         }
 

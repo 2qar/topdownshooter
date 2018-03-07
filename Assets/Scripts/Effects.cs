@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: Maybe move the weapon related effects like UpdateGunSpritePosition and GetWeaponAngle to the Weapon class? idk just a thought silly
 /// <summary>
 /// A various collection of effects for players, enemies, bullets etc. to use in different situations.
 /// </summary>
@@ -105,7 +106,7 @@ public class Effects : MonoBehaviour
         yield break;
     }
 
-    // FIXME: Explosion radius doesn't seem to do anything
+    // FIXME: Explosion radius doesn't seem to do anything: make a constructor for this method dummy
     private class Explosion
     {
         // the explosion itself
@@ -156,6 +157,50 @@ public class Effects : MonoBehaviour
             sprite = explosionObject.GetComponent<SpriteRenderer>();
             Color = sprite.color;
         }
+    }
+
+    /// <summary>
+    /// Gets the angle between the two GameObjects.
+    /// </summary>
+    /// <returns>The weapon angle.</returns>
+    /// <param name="objectToLookAt">
+    /// The object to get the angle from.
+    /// </param>
+    /// <param name="obj">
+    /// Origin object.
+    /// </param>
+    public static float GetWeaponAngle(GameObject objectToLookAt, GameObject obj)
+    {
+        // Take the distance between the player and the crosshair
+        Vector3 difference = objectToLookAt.transform.position - obj.transform.position;
+        // Normalize it, making the the x and y values a value between 0 and 1
+        difference.Normalize();
+
+        // Convert the difference to an angle
+        return Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+    }
+
+    /// <summary>
+    /// Updates the rotation of a weapon sprite based on whether the player or enemy is aiming to the left or right.
+    /// </summary>
+    /// <param name="angle">
+    /// Current aiming angle.
+    /// </param>
+    /// <param name="sr">
+    /// SpriteRenderer to flip.
+    /// </param>
+    public static void UpdateGunSpritePosition(float angle, SpriteRenderer sr)
+    {
+        if (angle > 90 || angle < -90)
+            sr.flipY = true;
+        else
+            sr.flipY = false;
+    }
+
+    // TODO: Write this method
+    public static void WeaponDropRotation()
+    {
+        
     }
 
 }
