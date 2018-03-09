@@ -21,6 +21,7 @@ public class GunObjectTriggers : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             // FIXME: The player can't pick up a weapon if they're colliding with two and stop colliding with one of them cus of this
+                // Maybe use OnCollisionStay2D instead for marking touchingDroppedWeapon as true
             outline.enabled = false;
             PlayerManager.instance.touchingDroppedWeapon = false;
         }

@@ -67,14 +67,14 @@ public class Effects : MonoBehaviour
     }
 
     // FIXME: Explosions still get stuck, make a prefab that runs this method and destroys itself at the end to prevent hanging
+        // Seems to happen mostly when the game is running at a low framerate
     /// <summary>
     /// Creates a small explosion at the given bullet's position and destroys the bullet.
     /// </summary>
     /// <param name="bullet">Bullet object to create an explosion on.</param>
     public static IEnumerator BulletHitEffect(GameObject bullet)
     {
-        Explosion explosion = new Explosion();
-        explosion.Create(bullet);
+        Explosion explosion = new Explosion(bullet);
 
         yield return new WaitForSeconds(.01f);
         explosion.Color = Color.black;
@@ -96,9 +96,7 @@ public class Effects : MonoBehaviour
     /// </param>
     public static IEnumerator MuzzleFlash(GameObject player)
     {
-        Explosion explosion = new Explosion();
-        explosion.Radius = 1000f;
-        explosion.Create(player);
+        Explosion explosion = new Explosion(player);
         explosion.Color = new Color(1, 1, 0, .3f);
 
         yield return new WaitForSeconds(.1f);
@@ -107,7 +105,6 @@ public class Effects : MonoBehaviour
         yield break;
     }
 
-    // FIXME: Explosion radius doesn't seem to do anything: make a constructor for this method dummy
     private class Explosion
     {
         // the explosion itself
@@ -146,15 +143,17 @@ public class Effects : MonoBehaviour
         }
 
         /// <summary>
-        /// Create an explosion at the given gameobject.
+        /// Create a new explosion at the given GameObject's position.
         /// </summary>
-        /// <param name="obj">Object to create an explosion at.</param>
-        public void Create(GameObject obj)
+        /// <param name="obj">
+        /// Object to create the explosion at.
+        /// </param>
+        public Explosion(GameObject obj)
         {
-            explosionObject = Instantiate((GameObject)Resources.Load("Prefabs/BulletExplosion"),
-                                           obj.transform.position, Quaternion.identity);
-            explosionObject.transform.position = new Vector3(explosionObject.transform.position.x,
-                                                   explosionObject.transform.position.y, -1);
+            explosionObject = Instantiate(Resources.Load<GameObject>("Prefabs/BulletExplosion"), 
+                                            obj.transform.position, Quaternion.identity);
+            explosionObject.transform.position = new Vector3(explosionObject.transform.position.x, 
+                                                                explosionObject.transform.position.y, -1);
             sprite = explosionObject.GetComponent<SpriteRenderer>();
             Color = sprite.color;
         }
