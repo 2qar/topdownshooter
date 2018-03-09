@@ -25,24 +25,24 @@ public class PlayerFire : MonoBehaviour
     void Start()
     {
         // the player's weapon
-        gun = new Weapon("Shotgun", gunRotater);
+        gun = new Weapon("Pistol", gunRotater);
         instance = this;
 
         // spawn a gun somewhere in the room or smth
-        Weapon randomGun = new Weapon("Minigun");
+        Weapon randomGun = new Weapon("Shotgun");
         randomGun.RandomizePosition(new Vector2(50, 50), new Vector2(50, 50));
     }
 
     // Update is called once per frame
     void Update () 
     {
-        float angle = Effects.GetWeaponAngle(cursor, gameObject);
+        float angle = gun.GetWeaponAngle(cursor, gameObject);
         gunRotater.transform.rotation = Quaternion.Euler(0, 0, angle);
 
         if (checkWeaponFiringStatus())
             fireWeapon(angle);
 
-        Effects.UpdateGunSpritePosition(angle, gun.sr);
+        gun.UpdateGunSpritePosition(angle, gun.sr);
 	}
 
     /// <summary>
@@ -58,23 +58,6 @@ public class PlayerFire : MonoBehaviour
         else
             return false;
     }
-
-    /*
-    // TODO: Move this method to effects so the enemies can use this for their weapons, make the method pass in a gun to rotate
-    /// <summary>
-    /// Updates whether the gun is in front of or behind the player and whether the gun needs to be flipped on the Y axis or not.
-    /// </summary>
-    /// <param name="angle">
-    /// Current angle between the player and the cursor.
-    /// </param>
-    void UpdateGunSpritePosition(float angle)
-    {
-        if (angle > 90 || angle < -90)
-            gun.sr.flipY = true;
-        else
-            gun.sr.flipY = false;
-    }
-    */
 
     void fireWeapon(float angle)
     {
@@ -99,19 +82,5 @@ public class PlayerFire : MonoBehaviour
         // Set a delay between the next shot
         nextFire = Time.time + gun.FireRate;
     }
-
-    /*
-    // TODO: Maybe add this to effects too
-    float getWeaponAngle()
-    {
-        // Take the distance between the player and the crosshair
-        Vector3 difference = cursor.transform.position - gameObject.transform.position;
-        // Normalize it, making the the x and y values a value between 0 and 1
-        difference.Normalize();
-
-        // Convert the difference to an angle
-        return Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-    }
-    */
 
 }

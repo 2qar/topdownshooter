@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// FIXME: Player can grab enemy weapons: make a bool that makes a weapon ungrabbable and pass it to the trigger method
-    // Write code that checks if the gun's parent is null; if null, let the player grab it
-// FIXME: Fix gun outline rotation
+// FIXME: Fix gun outline rotation: maybe get rid of gun outlines cus they look ugly
 // TODO: Make guns appear in front of the player when aiming below and behind the player when aiming above
 
 /// <summary>
@@ -207,6 +205,45 @@ public class Weapon
     public void SetRotation(float angle)
     {
         gun.transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+
+    /// <summary>
+    /// Gets the angle between the two GameObjects.
+    /// </summary>
+    /// <returns>The weapon angle.</returns>
+    /// <param name="objectToLookAt">
+    /// The object to get the angle from.
+    /// </param>
+    /// <param name="obj">
+    /// Origin object.
+    /// </param>
+    public float GetWeaponAngle(GameObject objectToLookAt, GameObject obj)
+    {
+        // Take the distance between the player and the crosshair
+        Vector3 difference = objectToLookAt.transform.position - obj.transform.position;
+        // Normalize it, making the the x and y values a value between 0 and 1
+        difference.Normalize();
+
+        // Convert the difference to an angle
+        return Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+    }
+
+    /// <summary>
+    /// Updates the rotation of a weapon sprite based on whether the player or enemy is aiming to the left or right.
+    /// </summary>
+    /// <param name="angle">
+    /// Current aiming angle.
+    /// </param>
+    /// <param name="sr">
+    /// SpriteRenderer to flip.
+    /// </param>
+    public void UpdateGunSpritePosition(float angle, SpriteRenderer sr)
+    {
+        if (angle > 90 || angle < -90)
+            sr.flipY = true;
+        else
+            sr.flipY = false;
     }
 
 }

@@ -8,7 +8,7 @@ public class GunObjectTriggers : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && transform.parent == null)
         {
             outline.enabled = true;
             PlayerManager.instance.touchingDroppedWeapon = true;
@@ -20,6 +20,7 @@ public class GunObjectTriggers : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            // FIXME: The player can't pick up a weapon if they're colliding with two and stop colliding with one of them cus of this
             outline.enabled = false;
             PlayerManager.instance.touchingDroppedWeapon = false;
         }

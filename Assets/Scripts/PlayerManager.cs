@@ -51,7 +51,7 @@ public class PlayerManager : MonoBehaviour
     void weaponSwitcher()
     {
         // if the player is touching the dropped weapon and they press E,
-        if(Input.GetKeyDown(KeyCode.E) && touchingDroppedWeapon)
+        if(Input.GetKeyDown(KeyCode.E) && touchingDroppedWeapon && droppedWeapon.transform.parent == null)
         {
             // drop the player's current weapon
             PlayerFire.instance.gun.gun.transform.parent = null;
@@ -61,6 +61,15 @@ public class PlayerManager : MonoBehaviour
             Destroy(droppedWeapon);
             // equip the weapon on the ground
             PlayerFire.instance.gun = new Weapon(droppedWeaponName, PlayerFire.instance.gunRotater);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.name == "Ammo Box")
+        {
+            Debug.Log("add ammo");
+            Destroy(collision.gameObject);
         }
     }
 
